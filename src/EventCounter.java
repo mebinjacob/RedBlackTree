@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 
 /**
@@ -17,16 +18,18 @@ public class EventCounter {
 		FileReader fileReader;
 			try {
 				fileReader = new FileReader(f);
-				BufferedReader bufReader = new BufferedReader(fileReader);
-				int n = Integer.parseInt(bufReader.readLine());
+				BufferedReader bufReader = new BufferedReader(fileReader, 50000);
+				Scanner fileScanner = new Scanner(bufReader);
+				int n = fileScanner.nextInt();
 				while (n != 0) {
-					String line = bufReader.readLine().trim();
-					String[] split = line.split(" ");
-					int id = Integer.parseInt(split[0]);
-					int count = Integer.parseInt(split[1]);
+					int id = fileScanner.nextInt();
+					int count = fileScanner.nextInt();
+
 					rbt.sortedInsert(id, count);
+
 					n--;
 				}
+//				levelOrder();
 				bufReader.close();
 				fileReader.close();
 			} catch (FileNotFoundException e) {
@@ -53,7 +56,10 @@ public class EventCounter {
 	public void increase(int theID, int m) {
 		rbt.increaseOrInsert(theID, m);
 	}
-
+	
+	public void levelOrder(){
+		rbt.levelOrder();
+	}
 	/**
 	 * Decrease the count of theID by m. If theID’s count becomes less than or
 	 * equal to 0, remove theID from the counter. Print the count of theID after
@@ -64,6 +70,7 @@ public class EventCounter {
 	 */
 	public void reduce(int theID, int m) {
 		System.out.println(rbt.decreaseOrDelete(theID, m));
+//		rbt.levelOrder();
 	}
 
 	/**
@@ -83,7 +90,7 @@ public class EventCounter {
 	 * @param id2
 	 */
 	public void inRange(int id1, int id2) {
-		
+		System.out.println(rbt.inRange(id1, id2));
 	}
 
 	/**
@@ -93,7 +100,7 @@ public class EventCounter {
 	 * @param theID
 	 */
 	public void next(int theID) {
-
+		rbt.next(theID);
 	}
 
 	/**
@@ -103,6 +110,6 @@ public class EventCounter {
 	 * @param theID
 	 */
 	public void previous(int theID) {
-
+		rbt.previous(theID);
 	}
 }
